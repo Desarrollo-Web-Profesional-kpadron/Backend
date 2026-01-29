@@ -1,1 +1,10 @@
-[{"nombre":"Adam Ondra","email":"adam.ondra@climb.ing"}]
+[
+  {
+    "nombre": "Adam Ondra",
+    "email": "adam.ondra@climb.ing"
+  },
+  {
+    "nombre": "Janja Garnbret",
+    "email": "janja@climb.ing"
+  }
+]
