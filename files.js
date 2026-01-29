@@ -1,26 +1,34 @@
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFile, readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 
+// Nuevo usuario a agregar
+const nuevoUsuario = {
+  nombre: "Janja Garnbret",
+  email: "janja@climb.ing"
+};
 
-// Crea un arreglo con datos de usuarios
-const usuarios = [
-    { nombre: "Adam Ondra", email: "adam.ondra@climb.ing" }
-];
+const archivo = "usuarios.json";
 
+async function manejarUsuarios() {
+  let usuarios = [];
 
-// Convierte el arreglo de usuarios a formato JSON
-const usersJson = JSON.stringify(usuarios)
+  // Verificar si el archivo existe
+  if (existsSync(archivo)) {
+    // Leer el archivo existente
+    const data = await readFile(archivo, "utf-8");
+    usuarios = JSON.parse(data);
+  }
 
+  // Añadir el nuevo usuario sin borrar los anteriores
+  usuarios.push(nuevoUsuario);
 
-// Escribe el archivo users.json con los datos de usuarios
-writeFileSync('usuarios.json', usersJson)
+  //  Guardar el arreglo completo en el archivo
+  await writeFile(archivo, JSON.stringify(usuarios, null, 2));
 
+  // Mostrar los usuarios en consola
+  console.log("Usuarios guardados:");
+  console.log(usuarios);
+}
 
-// Lee el archivo users.json y lo parsea a un objeto JavaScript
-const readUsersJson = readFileSync('usuarios.json')
-const readUsers = JSON.parse(readUsersJson)
-
-
-// Muestra los datos leídos en la consola
-console.log(readUsers)
-
-
+// Ejecutar la función
+manejarUsuarios().catch(console.error);
